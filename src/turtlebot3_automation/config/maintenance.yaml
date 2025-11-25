@@ -1,0 +1,9 @@
+turtlebot3_automation:
+  ros__parameters:
+    battery_topic: "/battery_state"
+    diagnostics_topic: "/diagnostics"
+    cmd_vel_topic: "/cmd_vel"
+    battery_critical_voltage: 10.8
+    battery_warning_voltage: 11.4
+    report_period: 30.0
+    log_dir: "~/.ros/turtlebot3_automation"
