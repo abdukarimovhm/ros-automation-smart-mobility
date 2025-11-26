@@ -1,0 +1,8 @@
+turtlebot3_automation:
+  ros__parameters:
+    camera_topic: "/camera/color/image_raw"
+    model_path: "~/.cache/ultralytics/yolov8n.pt"
+    confidence_threshold: 0.35
+    class_filter: []
+    inference_period: 0.15
+    marker_namespace: "yolo_detections"

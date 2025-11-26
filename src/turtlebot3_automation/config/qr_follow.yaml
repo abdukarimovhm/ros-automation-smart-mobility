@@ -1,0 +1,10 @@
+turtlebot3_automation:
+  ros__parameters:
+    target: "FOLLOW_ME"
+    camera_topic: "/camera/color/image_raw"
+    cmd_vel_topic: "/cmd_vel"
+    linear_speed: 0.12
+    angular_gain: 0.0025
+    distance_gain: 0.00025
+    max_angular: 0.6
+    max_linear: 0.18
