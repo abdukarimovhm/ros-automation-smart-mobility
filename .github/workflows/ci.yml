@@ -1,0 +1,35 @@
+name: CI
+
+on:
+  push:
+    branches: [ main, master ]
+  pull_request:
+    branches: [ main, master ]
+
+jobs:
+  test:
+    runs-on: ubuntu-20.04
+
+    steps:
+    - uses: actions/checkout@v3
+
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.8'
+
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
+
+    - name: Run tests
+      run: |
+        # Note: Full ROS testing requires Docker environment
+        # This runs basic parameter validation tests
+        python -m pytest src/turtlebot3_automation/tests/ -v
+
+    - name: Check code formatting
+      run: |
+        pip install black flake8
+        flake8 src/turtlebot3_automation/turtlebot3_automation --max-line-length=100 --exclude=__pycache__ || true
