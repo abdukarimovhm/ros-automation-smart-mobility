@@ -85,16 +85,16 @@ class ObjectDetectionNode(Node):
             detection = Detection2D()
             detection.header = msg.header
             hypothesis = ObjectHypothesisWithPose()
-            hypothesis.hypothesis.class_id = str(class_id)
-            hypothesis.hypothesis.score = conf
+            hypothesis.id = str(class_id)
+            hypothesis.score = conf
             detection.results.append(hypothesis)
 
             xywh = box.xywh[0].cpu().numpy()
             bbox = BoundingBox2D()
-            bbox.center.position.x = float(xywh[0])
-            bbox.center.position.y = float(xywh[1])
-            bbox.center.size_x = float(xywh[2])
-            bbox.center.size_y = float(xywh[3])
+            bbox.center.x = float(xywh[0])
+            bbox.center.y = float(xywh[1])
+            bbox.size_x = float(xywh[2])
+            bbox.size_y = float(xywh[3])
             detection.bbox = bbox
 
             detections_msg.detections.append(detection)
@@ -126,8 +126,8 @@ class ObjectDetectionNode(Node):
         marker.scale.z = 0.2
         marker.color.r, marker.color.g, marker.color.b = color
         marker.color.a = 0.9
-        marker.pose.position.x = detection.bbox.center.position.x / 100.0
-        marker.pose.position.y = detection.bbox.center.position.y / 100.0
+        marker.pose.position.x = detection.bbox.center.x / 100.0
+        marker.pose.position.y = detection.bbox.center.y / 100.0
         marker.pose.position.z = 1.0
         marker.text = f"{text} ({confidence:.2f})"
         return marker
