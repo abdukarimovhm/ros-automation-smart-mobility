@@ -1,6 +1,6 @@
-# TurtleBot3 Automation Suite (ROS 2 Foxy)
+# TurtleBot3 Automation Suite (ROS 2 Humble)
 
-Comprehensive automation toolkit for TurtleBot3 on ROS 2 Foxy (Ubuntu 20.04). The suite provides autonomous navigation, YOLOv8 object detection, maintenance monitoring, and custom QR-following capabilities. Each feature is implemented as a modular ROS 2 node with unified CLI and launch file interfaces.
+Comprehensive automation toolkit for TurtleBot3 on ROS 2 Humble (Ubuntu 22.04). The suite provides autonomous navigation, YOLOv8 object detection, maintenance monitoring, and custom QR-following capabilities. Each feature is implemented as a modular ROS 2 node with unified CLI and launch file interfaces.
 
 ## Features
 
@@ -19,37 +19,42 @@ Comprehensive automation toolkit for TurtleBot3 on ROS 2 Foxy (Ubuntu 20.04). Th
 git clone https://github.com/BaratovSokhibjon/module.ros2-automation
 cd module.ros2-automation
 
-# Create conda environment with Python 3.8 (required for ROS Foxy)
-conda create -n ros-foxy python=3.8 -y
-conda activate ros-foxy
+# Create conda environment with Python 3.10 (required for ROS Humble)
+conda create -n ros-humble python=3.10 -y
+conda activate ros-humble
 
 # Install Python dependencies
 pip install -r requirements.txt
 ```
 
-### 2. Install ROS Foxy System Packages
+### 2. Install ROS Humble System Packages
 
 ```bash
+# Add ROS 2 GPG key and repository
+curl -sSL https://raw.githubusercontent.com/ros/rosdistro/master/ros.key | sudo gpg --dearmor -o /usr/share/keyrings/ros-archive-keyring.gpg
+echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/ros-archive-keyring.gpg] http://packages.ros.org/ros2/ubuntu $(source /etc/os-release && echo $VERSION_CODENAME) main" | sudo tee /etc/apt/sources.list.d/ros2.list > /dev/null
+
 # Update package lists
 sudo apt update
 
-# Install ROS Foxy desktop and TurtleBot3 packages
-sudo apt install -y ros-foxy-desktop ros-foxy-turtlebot3* ros-foxy-nav2* ros-foxy-slam-toolbox ros-foxy-vision-msgs
-
-# Install additional build tools
-sudo apt install -y python3-colcon-common-extensions python3-rosdep
+# Install ROS Humble desktop, TurtleBot3, and build tools
+sudo apt install -y ros-humble-desktop ros-humble-turtlebot3* ros-humble-nav2* ros-humble-slam-toolbox ros-humble-vision-msgs python3-colcon-common-extensions python3-rosdep
 ```
 
 ### 3. Build the Application
 
 ```bash
-# Initialize rosdep
-sudo rosdep init
+# Update rosdep with latest package information
 rosdep update
 
-# Build the package
+# Build the package with colcon
 colcon build --symlink-install
+
+# Source the installation setup to activate the package
 source install/setup.bash
+```
+
+**Note:** After building, always source `install/setup.bash` in each terminal before running any ROS 2 commands.
 ```
 
 ### 4. Run the Application
@@ -102,9 +107,9 @@ yolov8n.pt                        # YOLOv8 model weights
 
 ## Prerequisites
 
-- **Ubuntu 20.04** (Focal Fossa)
-- **Python 3.8** (via conda environment)
-- **ROS 2 Foxy** (system installation)
+- **Ubuntu 22.04** (Jammy Jellyfish)
+- **Python 3.10** (via conda environment)
+- **ROS 2 Humble** (system installation)
 - **TurtleBot3 packages** (Gazebo simulation or hardware)
 - **GPU optional** (YOLOv8 works on CPU)
 
@@ -270,10 +275,10 @@ colcon test --packages-select turtlebot3_automation
 
 ### Common Issues
 
-1. **ROS Version Conflicts**: Ensure you're using ROS Foxy (not Rolling) with Python 3.8
-2. **Conda Environment**: Always activate the `ros-foxy` conda environment before running
+1. **ROS Version Conflicts**: Ensure you're using ROS Humble (not Rolling) with Python 3.10
+2. **Conda Environment**: Always activate the `ros-humble` conda environment before running
 3. **Build Issues**: Run `colcon build --symlink-install` after config changes
-4. **Navigation Manager**: Requires `ros-foxy-nav2-simple-commander` (install with sudo if needed)
+4. **Navigation Manager**: Requires `ros-humble-nav2-simple-commander` (install with sudo if needed)
 
 ### Test Script Issues
 
@@ -296,11 +301,11 @@ chmod +x scripts/*.sh
 
 ```bash
 # Check conda environment
-conda activate ros-foxy
-python --version  # Should be 3.8.x
+conda activate ros-humble
+python --version  # Should be 3.10.x
 
 # Check ROS
-source /opt/ros/foxy/setup.bash
+source /opt/ros/humble/setup.bash
 ros2 --version
 
 # Check package
@@ -431,7 +436,7 @@ Contributions are welcome! Please see [CONTRIBUTING.md](CONTRIBUTING.md) for gui
 
 ## Acknowledgments
 
-- Built on ROS 2 Foxy and Nav2 stack
+- Built on ROS 2 Humble and Nav2 stack
 - Uses YOLOv8 from Ultralytics
 - Designed for ROBOTIS TurtleBot3 platform
 

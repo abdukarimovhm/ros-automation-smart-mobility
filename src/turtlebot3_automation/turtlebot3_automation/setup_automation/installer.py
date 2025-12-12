@@ -1,4 +1,4 @@
-"""Automation helpers for provisioning ROS 2 Foxy and TurtleBot3 dependencies."""
+"""Automation helpers for provisioning ROS 2 Humble and TurtleBot3 dependencies."""
 
 from __future__ import annotations
 
@@ -15,16 +15,16 @@ from ..utils.logging import configure_logging
 _LOG = configure_logging(__name__)
 
 ROS_APT_PACKAGES = [
-    "ros-foxy-desktop",
-    "ros-foxy-turtlebot3-bringup",
-    "ros-foxy-turtlebot3-navigation",
-    "ros-foxy-turtlebot3-gazebo",
-    "ros-foxy-turtlebot3-slam",
-    "ros-foxy-nav2-bringup",
-    "ros-foxy-slam-toolbox",
-    "ros-foxy-vision-msgs",
-    "ros-foxy-image-transport",
-    "ros-foxy-diagnostic-updater",
+    "ros-humble-desktop",
+    "ros-humble-turtlebot3-bringup",
+    "ros-humble-turtlebot3-navigation",
+    "ros-humble-turtlebot3-gazebo",
+    "ros-humble-turtlebot3-slam",
+    "ros-humble-nav2-bringup",
+    "ros-humble-slam-toolbox",
+    "ros-humble-vision-msgs",
+    "ros-humble-image-transport",
+    "ros-humble-diagnostic-updater",
 ]
 
 PYTHON_PACKAGES = [
@@ -51,8 +51,8 @@ def _run(
 
 def ensure_apt_repositories(*, dry_run: bool = False) -> None:
     """Enable ROS 2 repositories and keys on Ubuntu 20.04."""
-    distro = os.environ.get("ROSDISTRO", "foxy")
-    if distro != "foxy":
+    distro = os.environ.get("ROSDISTRO", "humble")
+    if distro != "humble":
         _LOG.warning("Detected ROSDISTRO=%s, expected foxy. Continuing anyway.", distro)
 
     if shutil.which("ros2"):

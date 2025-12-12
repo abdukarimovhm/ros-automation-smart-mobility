@@ -75,7 +75,7 @@ def parse_args(argv: List[str]) -> argparse.Namespace:
 
     sub.add_parser("setup", help="Run the full automation provisioning pipeline.")
 
-    ros_only = sub.add_parser("install-ros", help="Install ROS 2 Foxy and TurtleBot3 packages via apt.")
+    ros_only = sub.add_parser("install-ros", help="Install ROS 2 Humble and TurtleBot3 packages via apt.")
     ros_only.add_argument("--python", default=sys.executable, help="Python executable for pip installs.")
 
     workspace = sub.add_parser("workspace", help="Create and populate the colcon workspace.")

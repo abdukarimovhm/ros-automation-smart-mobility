@@ -1,6 +1,6 @@
 # turtlebot3_automation ROS 2 Package
 
-This ROS 2 package provides automation tooling for TurtleBot3 workflows on ROS 2 Foxy, covering:
+This ROS 2 package provides automation tooling for TurtleBot3 workflows on ROS 2 Humble, covering:
 
 * Environment setup automation assisted by official documentation references.
 * Maintenance automation with periodic diagnostics and alerting hooks.

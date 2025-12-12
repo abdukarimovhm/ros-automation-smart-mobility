@@ -18,12 +18,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 - Updated README with complete setup instructions
-- Improved environment management (ros-foxy conda environment)
+- Improved environment management (ros-humble conda environment)
 - Enhanced troubleshooting section
+- Migrated from ROS Foxy to ROS Humble (Ubuntu 22.04)
+- Updated Python requirement from 3.8 to 3.10
 
 ### Fixed
 - Environment setup issues resolved
-- Better handling of ROS Foxy dependencies
+- Better handling of ROS Humble dependencies
 
 ## [1.0.0] - 2024-12-07
 
@@ -37,8 +39,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **Testing Framework**: Parameter validation and smoke tests
 
 ### Technical Features
-- ROS 2 Foxy compatibility
-- Python 3.8 support
+- ROS 2 Humble compatibility
+- Python 3.10 support
 - Modular node architecture
 - Launch file configurations
 - Parameter validation

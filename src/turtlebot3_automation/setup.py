@@ -36,7 +36,7 @@ setup(
     zip_safe=False,
     maintainer='Baratov Sokhibjon',
     maintainer_email='example@example.com',
-    description='Automation toolkit for TurtleBot3 on ROS2 Foxy spanning setup, maintenance, navigation, and perception.',
+    description='Automation toolkit for TurtleBot3 on ROS2 Humble spanning setup, maintenance, navigation, and perception.',
     license='Apache License 2.0',
     tests_require=['pytest'],
     entry_points={

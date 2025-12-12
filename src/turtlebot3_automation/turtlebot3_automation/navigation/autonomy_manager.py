@@ -38,7 +38,7 @@ class NavigationManager(Node):
         super().__init__("navigation_manager")
         if BasicNavigator is None:
             raise RuntimeError(
-                "nav2_simple_commander is not installed; install ros-foxy-nav2-simple-commander."
+                "nav2_simple_commander is not installed; install ros-humble-nav2-simple-commander."
             )
 
         self.declare_parameter("mode", "slam")

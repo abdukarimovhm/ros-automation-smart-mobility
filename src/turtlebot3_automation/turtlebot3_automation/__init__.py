@@ -1,4 +1,4 @@
-"""TurtleBot3 automation toolkit for ROS 2 Foxy."""
+"""TurtleBot3 automation toolkit for ROS 2 Humble."""
 
 from importlib.metadata import version, PackageNotFoundError
 
