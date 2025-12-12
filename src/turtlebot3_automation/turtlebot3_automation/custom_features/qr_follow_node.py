@@ -8,7 +8,7 @@ from geometry_msgs.msg import Twist
 from rclpy.node import Node
 from sensor_msgs.msg import Image
 
-from ..utils.logging import configure_logging
+from ..infrastructure.logging import configure_logging
 
 try:  # pragma: no cover - runtime dependency
     from cv_bridge import CvBridge

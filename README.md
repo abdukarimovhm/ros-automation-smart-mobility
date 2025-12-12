@@ -1,6 +1,6 @@
 # TurtleBot3 Automation Suite (ROS 2 Humble)
 
-Comprehensive automation toolkit for TurtleBot3 on ROS 2 Humble (Ubuntu 22.04). The suite provides autonomous navigation, YOLOv8 object detection, maintenance monitoring, and custom QR-following capabilities. Each feature is implemented as a modular ROS 2 node with unified CLI and launch file interfaces.
+Automation toolkit for TurtleBot3 on ROS 2 Humble (Ubuntu 22.04). It bundles autonomous navigation, YOLOv8-based perception, maintenance monitoring, and QR-follow behaviors. Everything ships as modular ROS 2 nodes with a shared CLI and launch files.
 
 ## Features
 
@@ -12,14 +12,14 @@ Comprehensive automation toolkit for TurtleBot3 on ROS 2 Humble (Ubuntu 22.04). 
 
 ## Quick Start (From Zero)
 
-### 1. Clone and Setup Environment
+### 1. Clone and Prepare Python
 
 ```bash
 # Clone the repository
 git clone https://github.com/BaratovSokhibjon/module.ros2-automation
 cd module.ros2-automation
 
-# Create conda environment with Python 3.10 (required for ROS Humble)
+# Create a conda environment with Python 3.10 (required for ROS Humble)
 conda create -n ros-humble python=3.10 -y
 conda activate ros-humble
 
@@ -27,7 +27,7 @@ conda activate ros-humble
 pip install -r requirements.txt
 ```
 
-### 2. Install ROS Humble System Packages
+### 2. Install ROS Humble Packages
 
 ```bash
 # Add ROS 2 GPG key and repository
@@ -41,7 +41,7 @@ sudo apt update
 sudo apt install -y ros-humble-desktop ros-humble-turtlebot3* ros-humble-nav2* ros-humble-slam-toolbox ros-humble-vision-msgs python3-colcon-common-extensions python3-rosdep
 ```
 
-### 3. Build the Application
+### 3. Build the Workspace
 
 ```bash
 # Update rosdep with latest package information
@@ -83,12 +83,12 @@ ros2 launch turtlebot3_automation qr_follow.launch.py
 src/turtlebot3_automation/
 ├── turtlebot3_automation/        # Main Python package
 │   ├── cli.py                     # Command-line interface
+│   ├── infrastructure/            # Logging and path helpers
 │   ├── maintenance/               # System monitoring node
 │   ├── navigation/                # Navigation management
 │   ├── perception/                # Object detection pipeline
 │   ├── custom_features/           # QR following feature
-│   ├── setup_automation/          # Installation helpers
-│   └── utils/                     # Shared utilities
+│   └── setup_automation/          # Installation helpers
 ├── config/                        # YAML configuration files
 ├── launch/                        # ROS 2 launch files
 │   ├── navigation_only.launch.py  # Full navigation stack
@@ -375,55 +375,48 @@ ros2 topic echo turtlebot3/alerts
 ## System Architecture
 
 ```
-┌─────────────────────────────────────────────────────────────────┐
-│                     TurtleBot3 Hardware/Simulation              │
-│  ┌──────────────┐  ┌──────────────┐  ┌─────────────────────┐   │
-│  │   Battery    │  │    Camera    │  │  Motor Controllers  │   │
-│  └──────┬───────┘  └──────┬───────┘  └──────────┬──────────┘   │
-└─────────┼──────────────────┼───────────────────────┼────────────┘
-          │                  │                       │
-          ▼                  ▼                       ▼
-    /battery_state    /camera/image_raw         /cmd_vel
-          │                  │                       ▲
-          │                  │                       │
-┌─────────┴──────────────────┴───────────────────────┴────────────┐
-│                      ROS 2 Topic Layer                           │
-└─────┬──────────┬──────────────┬─────────────────┬───────────────┘
-      │          │              │                 │
-      ▼          ▼              ▼                 ▼
-┌──────────┐ ┌────────────┐ ┌──────────────┐ ┌────────────────┐
-│Maintenance│ │  Object    │ │  QR Follow   │ │  Navigation    │
-│ Monitor   │ │ Detection  │ │     Node     │ │    Manager     │
-└─────┬─────┘ └─────┬──────┘ └──────┬───────┘ └────────────────┘
-      │             │                │
-      │             ▼                │
-      │    turtlebot3/perception/*   │
-      │                              │
-      ▼                              │
-turtlebot3/alerts                    │
-                                     │
-                                     ▼
-                              Robot Movement
+┌────────────────────────────────────────────────────────────────────┐
+│                 TurtleBot3 Hardware or Simulation                 │
+│  Battery (/battery_state)   Camera (/camera/image_raw)   /cmd_vel │
+└──────────────┬──────────────────────┬─────────────────────┬────────┘
+       │                      │                     │
+       │                      │                     ▲
+       │                      │                     │
+    ┌──────┴──────────┐   ┌───────┴───────┐     ┌───────┴───────┐
+    │ ROS 2 Topics    │   │  Perception   │     │ Navigation    │
+    │ + QoS bridge    │   │  (YOLOv8)     │     │ Manager       │
+    └──────┬──────────┘   └───────┬───────┘     └───────┬───────┘
+       │                      │                     │
+       │              detections/labels/markers     │
+       │                      │                     │
+    ┌──────▼──────────┐   ┌───────▼───────┐     ┌───────▼───────┐
+    │ Maintenance     │   │ QR Follow     │     │ Action on     │
+    │ Monitor         │   │ Controller    │     │ Paths/Goals   │
+    └──────┬──────────┘   └───────┬───────┘     └───────────────┘
+       │                      │
+  alerts/events topic      twist commands to /cmd_vel
+       │                      │
+       └───────────────► Robot motion loop
+
+Infrastructure: logging, path resolution, installer helpers support every node.
 ```
 
 ## Project Structure
 
 ```
 turtlebot3_automation/
-├── Subsystems
-│   ├── maintenance/          # Health monitoring
-│   ├── perception/           # Object detection (YOLO)
-│   ├── navigation/           # Autonomous navigation (Nav2)
-│   └── custom_features/      # QR code following
+├── turtlebot3_automation/    # Python package
+│   ├── navigation/           # Autonomous navigation (Nav2 commander)
+│   ├── perception/           # YOLOv8 object detection
+│   ├── maintenance/          # Health monitoring and alerts
+│   ├── custom_features/      # QR follow behavior
+│   ├── infrastructure/       # Logging, paths, shared helpers
+│   └── setup_automation/     # Provisioning/installer utilities
 │
-├── Support Systems
-│   ├── utils/                # Logging, paths
-│   └── setup_automation/     # Installation helpers
-│
-└── Configuration
-    ├── config/               # YAML parameters
-    ├── launch/               # Launch files
-    └── tests/                # Unit tests
+├── config/                   # YAML parameters for nodes
+├── launch/                   # ROS 2 launch descriptions
+├── tests/                    # Unit tests
+└── scripts/                  # Test and demo scripts
 ```
 
 ## License

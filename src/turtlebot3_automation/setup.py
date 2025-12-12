@@ -12,7 +12,7 @@ setup(
         'turtlebot3_automation.navigation',
         'turtlebot3_automation.perception',
         'turtlebot3_automation.custom_features',
-        'turtlebot3_automation.utils',
+        'turtlebot3_automation.infrastructure',
     ],
     data_files=[
         ('share/ament_index/resource_index/packages',

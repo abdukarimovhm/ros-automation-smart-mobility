@@ -10,7 +10,7 @@ import sys
 from pathlib import Path
 from typing import Iterable, List, Sequence
 
-from ..utils.logging import configure_logging
+from ..infrastructure.logging import configure_logging
 
 _LOG = configure_logging(__name__)
 

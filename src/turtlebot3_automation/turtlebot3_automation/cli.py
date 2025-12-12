@@ -18,7 +18,7 @@ from .setup_automation.installer import (
     install_ros_packages,
     sync_package_into_workspace,
 )
-from .utils.logging import configure_logging
+from .infrastructure.logging import configure_logging
 
 _LOG = configure_logging(__name__)
 

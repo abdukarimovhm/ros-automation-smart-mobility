@@ -15,7 +15,7 @@ from rclpy.node import Node
 from sensor_msgs.msg import BatteryState
 from std_msgs.msg import String
 
-from ..utils.logging import configure_logging
+from ..infrastructure.logging import configure_logging
 
 _ALERT_TOPIC = "turtlebot3/alerts"
 

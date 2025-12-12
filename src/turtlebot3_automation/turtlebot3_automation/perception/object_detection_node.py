@@ -13,7 +13,7 @@ from std_msgs.msg import String
 from visualization_msgs.msg import Marker, MarkerArray
 from vision_msgs.msg import BoundingBox2D, Detection2D, Detection2DArray, ObjectHypothesisWithPose
 
-from ..utils.logging import configure_logging
+from ..infrastructure.logging import configure_logging
 
 try:  # pragma: no cover - optional dependency
     from cv_bridge import CvBridge

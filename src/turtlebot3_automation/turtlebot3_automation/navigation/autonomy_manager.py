@@ -14,7 +14,7 @@ from nav_msgs.msg import Path
 from rclpy.node import Node
 from std_msgs.msg import String
 
-from ..utils.logging import configure_logging
+from ..infrastructure.logging import configure_logging
 
 try:  # pragma: no cover - optional dependency at runtime
     from nav2_simple_commander.robot_navigator import BasicNavigator, TaskResult
