@@ -16,7 +16,7 @@ Automation toolkit for TurtleBot3 on ROS 2 Humble (Ubuntu 22.04). It bundles aut
 
 ```bash
 # Clone the repository
-git clone https://github.com/BaratovSokhibjon/module.ros2-automation
+git clone https://github.com/abdukarimovhm/ros-automation-smart-mobility
 cd module.ros2-automation
 
 # Create a conda environment with Python 3.10 (required for ROS Humble)
